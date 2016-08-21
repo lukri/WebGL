@@ -1,7 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
 <h1>WebGL</h1>
 
-project1: <a href="webGL-new/index.html">webGL-new</a><br>
+project1: <a href="javascript:openSubLink('webGL-new/index.html')">webGL-new</a><br>
 <br>
 Random creation created elements:
 <li>Terrain</li>
 <li>Tree</li>
+
+
+
+
+<script>
+    function openSubLink(subLink){
+        var url=window.location+"";
+        var mobileUrl = url.replace("/index.html", "/"+subLink);
+        window.location = mobileUrl;
+        return false;
+    }
+</script>
+
+
+</body>
+</html>
