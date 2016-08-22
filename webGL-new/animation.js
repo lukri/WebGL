@@ -1,3 +1,4 @@
+/*global VirtualJoystick*/
 console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
 
 //
@@ -47,7 +48,7 @@ joystickL.addEventListener('touchStart', function(){
 
 
 
-
+/*global ControlPanelHanlder*/
 var cPH = new ControlPanelHanlder();
 
 cPH.setCurrentTree("Twinkle Controls", "Twinkle", "Switch");
@@ -538,7 +539,7 @@ function getRelativeCoordinates(event, reference) {
 
       // Look for the coordinates starting from the reference element.
       var e = reference;
-      var offset = { x: 0, y: 0 }
+      var offset = { x: 0, y: 0 };
       while (e) {
         if (typeof e.mouseX != 'undefined') {
           x = e.mouseX - offset.x;

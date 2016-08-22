@@ -1,4 +1,4 @@
-Loco = function (options) {
+var Loco = function (options) {
     options = options || {};
     var scale = options.scale || 1;
     var startPosition = options.startPosition || {x:0,y:0,z:0};

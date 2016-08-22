@@ -1,4 +1,4 @@
-Camera = function (options) {
+var Camera = function (options) {
     this.options = options || {};
 
     var pitch = -8;
@@ -10,6 +10,7 @@ Camera = function (options) {
     var joggingAngle = 0;
 
     //see https://gist.github.com/funkaster/1248396/d6e493d2468bab2ae8424701b877dbfba57cc2f6
+    /*global mat4*/
     var cameraMatrix = mat4.create();
     mat4.identity(cameraMatrix);
     

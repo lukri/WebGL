@@ -1,8 +1,10 @@
 //198 achtung wieder uaskommentieren    197 beachten, kann undefiniert sein
 var gl;
+
 function initGL(canvas) {
     try {
         //gl = canvas.getContext("experimental-webgl");
+        /*global WebGLUtils*/
         gl = WebGLUtils.setupWebGL(canvas);
         gl.viewportWidth = canvas.width;
         gl.viewportHeight = canvas.height;
@@ -13,6 +15,7 @@ function initGL(canvas) {
     }
 }
 
+/*global mat4*/
 var mvMatrix = mat4.create();
 var mvMatrixStack = [];
 var pMatrix = mat4.create();
@@ -49,11 +52,18 @@ function drawScene() {
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
     mat4.identity(mvMatrix);
 
-    //Kamera
+    
+    
+    //Kamera 
+    /*global camera*/
     mat4.multiply(mvMatrix,camera.getMatrix(),mvMatrix);
 
 
-
+    /*global framebufferHandler*/
+    /*global mouseDown*/
+    /*global lastMouseX*/
+    /*global lastMouseY*/
+    /*global world*/
     // Render picking colour map buffer off-screen
     framebufferHandler.StartRenderLoop(mouseDown,{x:lastMouseX,y:lastMouseY});
     if(mouseDown){
