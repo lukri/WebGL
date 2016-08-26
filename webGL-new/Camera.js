@@ -18,6 +18,12 @@ var Camera = function (options) {
         
         //yPos = 0;
         if (speed !== 0) {
+            
+            
+            //get off the train
+            /*global locoCam*/
+            locoCam = false; 
+            
             xPos -= Math.sin(degToRad(yaw)) * speed * elapsed *0.05;
             zPos -= Math.cos(degToRad(yaw)) * speed * elapsed *0.05;
 

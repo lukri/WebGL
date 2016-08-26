@@ -136,14 +136,21 @@ function animate() {
     var timeNow = new Date().getTime();
     if (lastTime !== 0) {
         var elapsed = timeNow - lastTime;
+        /*global loco*/
         loco.animate();
 
+        /*global camera*/
         camera.update(speed, yawRate, pitchRate, elapsed);
         
-        camDetails = camera.getDetails();
+        var camDetails = camera.getDetails();
+        /*global sky*/
         sky.reset();
         //cam correction in z value
         sky.translate({x:camDetails.xPos,y:camDetails.yPos,z:camDetails.zPos+10});
+        
+        loco.jumpOnWhenClose(camDetails, 10);
+        
+        
     }
     lastTime = timeNow;
 }

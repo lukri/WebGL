@@ -200,6 +200,18 @@ var Loco = function (options) {
     this.getPosition = function(){
         return {x:pTM[12],y:pTM[13],z:pTM[14]};  
     };
-
+    
+    this.jumpOnWhenClose = function(camDetails, distance){
+        var actualDistance =    (pTM[12]-camDetails.xPos)*(pTM[12]-camDetails.xPos)
+                            +   (pTM[13]-camDetails.yPos)*(pTM[13]-camDetails.yPos) 
+                            +   (pTM[14]-camDetails.zPos)*(pTM[14]-camDetails.zPos); 
+        actualDistance = Math.sqrt(actualDistance);
+        console.log(actualDistance); 
+        
+        /*global locoCam*/
+        if((actualDistance<distance)&&!locoCam){
+            locoCam = true;    
+        }
+    };
 
 };
