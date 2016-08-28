@@ -202,9 +202,10 @@ var Loco = function (options) {
     };
     
     this.jumpOnWhenClose = function(camDetails, distance){
+        //achtung, kamera startet nicht auf 0,0, z mus um 10 korrigiert werden
         var actualDistance =    (pTM[12]-camDetails.xPos)*(pTM[12]-camDetails.xPos)
                             +   (pTM[13]-camDetails.yPos)*(pTM[13]-camDetails.yPos) 
-                            +   (pTM[14]-camDetails.zPos)*(pTM[14]-camDetails.zPos); 
+                            +   (pTM[14]-camDetails.zPos-10)*(pTM[14]-camDetails.zPos-10); 
         actualDistance = Math.sqrt(actualDistance);
         console.log(actualDistance); 
         

@@ -148,7 +148,7 @@ function animate() {
         //cam correction in z value
         sky.translate({x:camDetails.xPos,y:camDetails.yPos,z:camDetails.zPos+10});
         
-        loco.jumpOnWhenClose(camDetails, 10);
+        loco.jumpOnWhenClose(camDetails, 2);
         
         
     }
