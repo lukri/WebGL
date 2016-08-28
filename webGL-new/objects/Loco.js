@@ -207,7 +207,7 @@ var Loco = function (options) {
                             +   (pTM[13]-camDetails.yPos)*(pTM[13]-camDetails.yPos) 
                             +   (pTM[14]-camDetails.zPos-10)*(pTM[14]-camDetails.zPos-10); 
         actualDistance = Math.sqrt(actualDistance);
-        console.log(actualDistance); 
+        //console.log(actualDistance); 
         
         /*global locoCam*/
         if((actualDistance<distance)&&!locoCam){
