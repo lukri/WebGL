@@ -43,8 +43,8 @@ var Train = function (options) {
             wagons[wagonNumber].animate();   
     };
     
-    this.jumpOnWhenClose = function(camDetails, distance){
-        wagons[0].jumpOnWhenClose(camDetails, distance);
+    this.jumpOnWhenCloseToWagon = function(camDetails, distance, wagonNumber){
+        if(wagons[wagonNumber])wagons[wagonNumber].jumpOnWhenClose(camDetails, distance);
     };
     
     this.setShader = function(shader){
@@ -52,8 +52,9 @@ var Train = function (options) {
             wagons[wagonNumber].getObject().setShader(shader);    
     };
     
-    this.getLocoPosition = function(){
-        return wagons[0].getPosition();    
+    this.getWagonPosition = function(wagonNumber){
+        if(!wagons[wagonNumber])return false;
+        return wagons[wagonNumber].getPosition();
     };
     
 

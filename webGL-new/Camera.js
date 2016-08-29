@@ -39,7 +39,7 @@ var Camera = function (options) {
         }
         
         if(locoCam){ //defined in animation
-            locoPosXYZ = train.getLocoPosition();    
+            locoPosXYZ = train.getWagonPosition(1); //get first wagon, loco would be 0   
             xPos = locoPosXYZ.x;
             yPos = locoPosXYZ.y+0.2;
             zPos = locoPosXYZ.z-10;

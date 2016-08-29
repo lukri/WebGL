@@ -19,7 +19,7 @@ var sky;
 
 var terrainHolder;
 
-var train, loco;
+var train;
 var tree;
 
 

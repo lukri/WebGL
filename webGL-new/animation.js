@@ -148,7 +148,7 @@ function animate() {
         //cam correction in z value
         sky.translate({x:camDetails.xPos,y:camDetails.yPos,z:camDetails.zPos+10});
         
-        train.jumpOnWhenClose(camDetails, 2);
+        train.jumpOnWhenCloseToWagon(camDetails, 2, 0); //0 is loco
         
         
     }
