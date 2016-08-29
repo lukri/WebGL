@@ -39,7 +39,7 @@ var Camera = function (options) {
         }
         
         if(locoCam){ //defined in animation
-            locoPosXYZ = loco.getPosition();    
+            locoPosXYZ = train.getLocoPosition();    
             xPos = locoPosXYZ.x;
             yPos = locoPosXYZ.y+0.2;
             zPos = locoPosXYZ.z-10;

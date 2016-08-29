@@ -136,8 +136,8 @@ function animate() {
     var timeNow = new Date().getTime();
     if (lastTime !== 0) {
         var elapsed = timeNow - lastTime;
-        /*global loco*/
-        loco.animate();
+        /*global train*/
+        train.animate();
 
         /*global camera*/
         camera.update(speed, yawRate, pitchRate, elapsed);
@@ -148,7 +148,7 @@ function animate() {
         //cam correction in z value
         sky.translate({x:camDetails.xPos,y:camDetails.yPos,z:camDetails.zPos+10});
         
-        loco.jumpOnWhenClose(camDetails, 2);
+        train.jumpOnWhenClose(camDetails, 2);
         
         
     }
@@ -255,6 +255,8 @@ function handleKeys() {
       z += 0.05;
     }
 
+   
+   /*
     if (currentlyPressedKeys[KeyEvent.DOM_VK_UP]) {
       loco.drive("forward");
     }
@@ -270,7 +272,7 @@ function handleKeys() {
       loco.steer("right");
     }
     loco.stop();
-
+  */
 
 
 

@@ -8,6 +8,8 @@ var Loco = function (options) {
     var accelerate = false;
     var accelerateRate = 0.001*scale;
     var gear = 0;
+    
+    var wagonNumber = options.wagonNumber || 0;
 
     var path = null;
 
@@ -80,9 +82,11 @@ var Loco = function (options) {
     //wheel.rotate({x:45});
 
     loco.addChild(base);
-    loco.addChild(tank);
-    loco.addChild(cabin);
-    loco.addChild(funnel);
+    if(wagonNumber===0){
+        loco.addChild(tank);
+        loco.addChild(cabin);
+        loco.addChild(funnel);
+    }
 
     loco.addChild(axleF);
     loco.addChild(axleB);

@@ -19,7 +19,8 @@ var sky;
 
 var terrainHolder;
 
-var loco;
+var train, loco;
+var tree;
 
 
 function assemblyScene() {
@@ -173,6 +174,19 @@ function assemblyScene() {
 
     */
 
+    
+    
+    /*global Train*/
+    train = new Train({
+        trainLength:4, //amount of wagons, included loco
+        animationPath:pfad,
+    });
+    
+    train.setShader("color-shader");
+    
+    world.addChild(train.getObject());
+    
+    /*
     var locoScale = 0.2;
     loco = new Loco({
         scale:locoScale,
@@ -181,9 +195,9 @@ function assemblyScene() {
     //world.children = [];
     world.addChild(loco.getObject());
     loco.getObject().setShader("color-shader");
+    */
 
-
-
+    /*global Tree*/
     tree = new Tree();
     tree = tree.getObject();
     tree.scale({xyz:0.2});
