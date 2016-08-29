@@ -70,13 +70,11 @@ var Train = function (options) {
     this.speedup = function(){
         this.animationSpeed += speedChangeRate; 
         if(this.animationSpeed>=maxSpeed)this.animationSpeed=maxSpeed;
-        console.log(this.animationSpeed);
     };
     
     this.slowdown = function(){
         this.animationSpeed -= speedChangeRate;   
         if(this.animationSpeed<=0)this.animationSpeed=0;
-        console.log(this.animationSpeed);
     };
 
 };
