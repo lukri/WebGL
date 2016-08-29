@@ -9,6 +9,8 @@ var Loco = function (options) {
     var accelerateRate = 0.001*scale;
     var gear = 0;
     
+    var parentTrain = options.parentTrain || null;
+    
     var wagonNumber = options.wagonNumber || 0;
 
     var path = null;
@@ -156,7 +158,6 @@ var Loco = function (options) {
         locoPlace.translate({x:start.x,y:start.y,z:start.z});
     };
 
-    var animationSpeed = 0.02;
     var animationV;
     var orientationV = new Vector(1,0,0);
     var angleY = 0;
@@ -170,6 +171,8 @@ var Loco = function (options) {
     var lTM = loco.transformMatrix;
     var wheelRotation = 0;
     this.animate = function(){
+        if(parentTrain.animationSpeed===0)return false;
+        
         actualPos.x = pTM[12];
         actualPos.y = pTM[13];
         actualPos.z = pTM[14];
@@ -180,8 +183,8 @@ var Loco = function (options) {
         if(leftMiddleRight==3)nextPointV = path[nextPoint].rightRightConnector;
 
         animationV = actualPos.getDifferenceVector(nextPointV);
-        if(animationV.getLength()>animationSpeed){
-            animationV.setLength(animationSpeed);
+        if(animationV.getLength()>parentTrain.animationSpeed){
+            animationV.setLength(parentTrain.animationSpeed);
         }else{
             leftMiddleRight = (++leftMiddleRight)%4;
             if(leftMiddleRight==0)

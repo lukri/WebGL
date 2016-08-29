@@ -255,6 +255,14 @@ function handleKeys() {
       z += 0.05;
     }
 
+    
+    if (currentlyPressedKeys[KeyEvent.DOM_VK_UP]) {
+      train.speedup();
+    }
+    if (currentlyPressedKeys[KeyEvent.DOM_VK_DOWN]) {
+      train.slowdown();
+    }
+
    
    /*
     if (currentlyPressedKeys[KeyEvent.DOM_VK_UP]) {

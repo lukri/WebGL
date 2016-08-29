@@ -4,16 +4,21 @@ var Train = function (options) {
     var startPosition = options.startPosition || {x:0,y:0,z:0};
     var initialSpeed = 0.01*scale;
     var locoSpeed = initialSpeed;
-    var maxSpeed = 0.7*scale;
+    
     var accelerate = false;
     var accelerateRate = 0.001*scale;
     var gear = 0;
 
     var path = options.animationPath || null;
     var trainLength = options.trainLength || 1;
+    
+    
+    var maxSpeed = 0.05;
+    this.animationSpeed = 0.02;
+    var speedChangeRate = 0.0001;
 
 
-
+    /*global Obj*/
     var trainObj = new Obj();
     
     var wagons = [];
@@ -26,6 +31,7 @@ var Train = function (options) {
             scale:locoScale,
             startPosition:{x:wagonNumber*0.35*-1,y:0,z:0},
             wagonNumber:wagonNumber,
+            parentTrain:this
         });
         wagons[wagonNumber].setAnimationPath(path);
         
@@ -37,7 +43,7 @@ var Train = function (options) {
         return trainObj;
     };
 
-  
+
     this.animate = function(){
         for(var wagonNumber=0;wagonNumber<wagons.length;wagonNumber++)
             wagons[wagonNumber].animate();   
@@ -57,5 +63,20 @@ var Train = function (options) {
         return wagons[wagonNumber].getPosition();
     };
     
+    
+    
+   
+    
+    this.speedup = function(){
+        this.animationSpeed += speedChangeRate; 
+        if(this.animationSpeed>=maxSpeed)this.animationSpeed=maxSpeed;
+        console.log(this.animationSpeed);
+    };
+    
+    this.slowdown = function(){
+        this.animationSpeed -= speedChangeRate;   
+        if(this.animationSpeed<=0)this.animationSpeed=0;
+        console.log(this.animationSpeed);
+    };
 
 };
