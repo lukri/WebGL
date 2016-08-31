@@ -25,7 +25,7 @@ var tree;
 
 function assemblyScene() {
     //document.body.style.background = "black";
-    alert("start new");
+    //alert("start new");
 
 
     //framebufferHandler is defined in FramebufferHandler.js

@@ -1,38 +1,42 @@
-/*global VirtualJoystick*/
-console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+var joystickL, joystickR;
 
-//
-var joystickR    = new VirtualJoystick({
-    container    : document.body,
-    strokeStyle    : 'cyan',
-    limitStickTravel: true,
-    stickRadius    : 50
-});
-joystickR.addEventListener('touchStartValidation', function(event){
-    var touch    = event.changedTouches[0];
-    if( touch.pageX < window.innerWidth/2 )    return false;
-    return true;
-});
-
-// one on the right of the screen
-var joystickL    = new VirtualJoystick({
-    container    : document.body,
-    strokeStyle    : 'orange',
-    limitStickTravel: true,
-    stickRadius    : 50,
-});
-joystickL.addEventListener('touchStartValidation', function(event){
-    var touch    = event.changedTouches[0];
-    if( touch.pageX >= window.innerWidth/2 )    return false;
-    return true;
-});
-/*
-joystickL.addEventListener('touchStart', function(){
-    console.log('fire');
-});
-*/
-
-
+function loadVirtualJoystick(){
+    
+    /*global VirtualJoystick*/
+    console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+    
+    //
+    joystickR    = new VirtualJoystick({
+        container    : document.body,
+        strokeStyle    : 'cyan',
+        limitStickTravel: true,
+        stickRadius    : 50
+    });
+    joystickR.addEventListener('touchStartValidation', function(event){
+        var touch    = event.changedTouches[0];
+        if( touch.pageX < window.innerWidth/2 )    return false;
+        return true;
+    });
+    
+    // one on the right of the screen
+    joystickL    = new VirtualJoystick({
+        container    : document.body,
+        strokeStyle    : 'orange',
+        limitStickTravel: true,
+        stickRadius    : 50,
+    });
+    joystickL.addEventListener('touchStartValidation', function(event){
+        var touch    = event.changedTouches[0];
+        if( touch.pageX >= window.innerWidth/2 )    return false;
+        return true;
+    });
+    /*
+    joystickL.addEventListener('touchStart', function(){
+        console.log('fire');
+    });
+    */
+}    
+    
 
 
 
