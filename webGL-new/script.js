@@ -1,4 +1,3 @@
-//198 achtung wieder uaskommentieren    197 beachten, kann undefiniert sein
 var gl;
 
 function initGL(canvas) {
@@ -205,6 +204,9 @@ function drawObject(obj, options){
         gl.uniform1i(shaderProgram.useShininessMapUniform, useShininessMap&&snininessMapUse.getValue());
         gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, specular.getValue());
         var shininessValue = shininess.getValue()||0;
+        
+        /*TODO kommentar entfernen*/
+        //198 achtung wieder uaskommentieren    197 beachten, kann undefiniert sein
         //if(texture.shininess!=null)shininessValue = texture.shininess;
         if(obj.shininess!=null)shininessValue = obj.shininess;
         gl.uniform1f(shaderProgram.materialShininessUniform, shininessValue);
@@ -316,8 +318,9 @@ function webGLStart() { //called from bodyonload in index.html
 function start(button, startFullscreen){
     if(startFullscreen)toggleFullScreen();
     button.parentNode.style.display = "none";
-    webGLStart();
+    async(webGLStart);
 }
+
 
 function showButtons(){
     document.getElementById('startbuttonpannel').style.display = "block";
@@ -343,4 +346,16 @@ function toggleFullScreen() {
       document.webkitCancelFullScreen();  
     }  
   }  
+}
+
+
+
+
+function async(fn,fnOptions, callback,callbackOptions) {
+    setTimeout(function() {
+        if(fnOptions){fn(fnOptions);}else{fn(fnOptions);}
+        if(callback){
+            if(callbackOptions){callback(callbackOptions);}else{callback();}
+        }
+    }, 0);
 }
