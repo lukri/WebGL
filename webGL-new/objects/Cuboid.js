@@ -4,7 +4,7 @@ Cuboid = function (options) {
     var x = options.x || 2;
     var y = options.y || 2;
     var z = options.z || 2;
-
+    var color = options.color || "default";
     x /= 2;
     y /= 2;
     z /= 2;
@@ -46,14 +46,23 @@ Cuboid = function (options) {
         -x,  y,  z,
         -x,  y, -z,
     ];
-    this.colorsTemp = [
-        [1.0, 0.0, 0.0, 1.0],     // Front face
-        [1.0, 1.0, 0.0, 1.0],     // Back face
-        [0.0, 1.0, 0.0, 1.0],     // Top face
-        [1.0, 0.5, 0.5, 1.0],     // Bottom face
-        [1.0, 0.0, 1.0, 1.0],     // Right face
-        [0.0, 0.0, 1.0, 1.0],     // Left face
-    ];
+    
+    if(color=="default"){
+        this.colorsTemp = [
+            [1.0, 0.0, 0.0, 1.0],     // Front face
+            [1.0, 1.0, 0.0, 1.0],     // Back face
+            [0.0, 1.0, 0.0, 1.0],     // Top face
+            [1.0, 0.5, 0.5, 1.0],     // Bottom face
+            [1.0, 0.0, 1.0, 1.0],     // Right face
+            [0.0, 0.0, 1.0, 1.0],     // Left face
+        ];
+    }else{
+        this.colorsTemp = [];
+        for (var i = 0; i < 6; i++) {
+            this.colorsTemp.push(color);
+        }
+    }
+    
     this.colors = [];
     for (var i in this.colorsTemp) {
     var color = this.colorsTemp[i];
@@ -62,10 +71,12 @@ Cuboid = function (options) {
     }
     }
 
-    //colorful ;)
-    this.colors = [];
-    for(var i=0; i<24;i++)
-        this.colors.push(Math.random(),Math.random(),Math.random(),1);
+    if(color=="random"){
+        //colorful ;)
+        this.colors = [];
+        for(var i=0; i<24;i++)
+            this.colors.push(Math.random(),Math.random(),Math.random(),1);
+    }
 
 
     this.textureCoords = [

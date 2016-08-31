@@ -6,6 +6,7 @@ Cylinder = function (options) {
     var parts = options.parts || 50;
     var center = options.center || {x:0,y:0,z:0};
     var isClosed = options.isClosed;
+    var color = options.color || "default";
     if((!isClosed) && (isClosed!=false))isClosed=true;
 
     this.normals=[];this.textureCoords=[];this.vertices=[];this.colors=[];this.indices=[];
@@ -47,7 +48,11 @@ Cylinder = function (options) {
                 ring[i+m*parts].y + (k*0.5*height || (-0.5)*height),
                 ring[i+m*parts].z);
             this.normals.push(ring[i].x*n, 0, ring[i].z*n);
-            this.colors.push(Math.random(),Math.random(),Math.random(),1);
+            if(color=="default"){
+                this.colors.push(Math.random(),Math.random(),Math.random(),1);
+            }else{
+                this.colors.push(color[0],color[1],color[2],color[3]);
+            }
             j = i+iShift;
             if(k==0)this.indices.push(j,(j+1)%parts+parts+iShift,(j+1)%parts+iShift);
             if(k==1)this.indices.push(j,(j+1)%parts+parts+iShift, j+parts);

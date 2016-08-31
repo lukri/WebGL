@@ -35,19 +35,20 @@ var Loco = function (options) {
     var wheelTemplate = new Obj("cylinder",{
         radius:wheelRadius,
         innerRadius:0.05,
-        height:0.1});
+        height:0.1,
+        color:[0.1,0,0,1] });
     wheelTemplate.rotate({x:90});
 
 
-    var tank = new Obj("cylinder",{radius:0.22,height:0.8});
+    var tank = new Obj("cylinder",{radius:0.22,height:0.8,color:[0.1,0,0,1]});
     tank.rotate({z:90});
     tank.translate({y:0.25,x:-0.22});
 
-    var base = new Obj("cuboid", {x:1.3,y:0.12,z:0.48});
+    var base = new Obj("cuboid", {x:1.3,y:0.12,z:0.48,color:[0.1,0,0,1]});
     base.translate({y:0.05});
     base.vTexBuffer = null;
 
-    var cabin = new Obj("cuboid", {x:0.5,y:0.7,z:0.48});
+    var cabin = new Obj("cuboid", {x:0.5,y:0.7,z:0.48,color:[0.1,0,0,1]});
     cabin.translate({y:0.45, x:0.38});
     cabin.vTexBuffer = null;
 
