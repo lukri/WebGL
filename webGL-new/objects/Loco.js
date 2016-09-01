@@ -28,7 +28,9 @@ var Loco = function (options) {
 
     var axleTemplate = new Obj("cylinder",{
         radius:0.048,
-        height:0.6});
+        height:0.6,
+        color:[0.1,0,0,1]
+    });
     axleTemplate.rotate({x:90});
 
     var wheelRadius = 0.2;
@@ -36,7 +38,8 @@ var Loco = function (options) {
         radius:wheelRadius,
         innerRadius:0.05,
         height:0.1,
-        color:[0.1,0,0,1] });
+        color:[0.1,0,0,1]
+    });
     wheelTemplate.rotate({x:90});
 
 
@@ -54,7 +57,9 @@ var Loco = function (options) {
 
     var funnel = new Obj("revolution",{
         form:[new Vector(0.4,1),new Vector(0.8,1.5),new Vector(0.8,2),new Vector(1,2),new Vector(1,1.5),new Vector(0.5,1),new Vector(0.5,0),new Vector(0.4,0)],
-        scale:0.2,});
+        scale:0.2,
+        color:[0.1,0,0,1]
+    });
     funnel.translate({x:-0.3,y:0.4});
     //funnel.shader =  shaderHanlder.getShader("color-shader");
 

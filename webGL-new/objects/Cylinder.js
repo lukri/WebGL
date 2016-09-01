@@ -51,7 +51,12 @@ Cylinder = function (options) {
             if(color=="default"){
                 this.colors.push(Math.random(),Math.random(),Math.random(),1);
             }else{
-                this.colors.push(color[0],color[1],color[2],color[3]);
+                //this.colors.push(color[0],color[1],color[2],color[3]);
+                if(i%2==0){
+                    this.colors.push(0,0,0,1);
+                }else{
+                    this.colors.push(0.5,0.5,0.5,1);
+                }
             }
             j = i+iShift;
             if(k==0)this.indices.push(j,(j+1)%parts+parts+iShift,(j+1)%parts+iShift);
@@ -74,7 +79,15 @@ Cylinder = function (options) {
                 ring[i+m*parts].y + (k*0.5*height || (-0.5)*height),
                 ring[i+m*parts].z);
             this.normals.push(0, n, 0);
-            this.colors.push(Math.random(),Math.random(),Math.random(),1);
+            if(color=="default"){
+                this.colors.push(Math.random(),Math.random(),Math.random(),1);
+            }else{
+                if(i%2==0){
+                    this.colors.push(0,0,0,1);
+                }else{
+                    this.colors.push(0.5,0.5,0.5,1);
+                }
+            }
             j = i+iShift;
             if(m==0)this.indices.push(j,(j+1)%parts+parts+iShift,(j+1)%parts+iShift);
             if(m==1)this.indices.push(j,(j+1)%parts+parts+iShift, j+parts);

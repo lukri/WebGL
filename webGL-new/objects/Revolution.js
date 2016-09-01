@@ -4,6 +4,8 @@ Revolution = function (options) {
     var scale = options.scale || 1;
     var form = options.form || [new Vector(0,0.5,0),new Vector(1,1,0),new Vector(1,0,0),new Vector(0,-1,0)];
     var parts = options.parts || 50;
+    
+    var color = options.color || "default";
 
     var closeRevolution = options.closeRevolution;
     if((!closeRevolution)&&(closeRevolution!=false))closeRevolution=false;
@@ -59,12 +61,19 @@ Revolution = function (options) {
                 if(invertNormals)normal.invert();
 
                 this.normals.push(normal.x, normal.y, normal.z);
-                this.colors.push(Math.random(),Math.random(),Math.random(),1);
-
+                if(color=="default"){
+                    this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                }else{
+                    this.colors.push(color[0],color[1],color[2],color[3]);
+                }
                 if(!shareFormPoints){
                     this.vertices.push(np2.x,np2.y,np2.z);
                     this.normals.push(normal.x, normal.y, normal.z);
-                    this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                    if(color=="default"){
+                        this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                    }else{
+                        this.colors.push(color[0],color[1],color[2],color[3]);
+                    }
                 }
 
                 fL = formL;
@@ -87,8 +96,15 @@ Revolution = function (options) {
                 this.normals.push(normal.x, normal.y, normal.z);
                 this.normals.push(normal.x, normal.y, normal.z);
 
-                this.colors.push(Math.random(),Math.random(),Math.random(),1);
-                this.colors.push(Math.random(),Math.random(),Math.random(),1);
+
+                if(color=="default"){
+                    this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                    this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                }else{
+                    this.colors.push(color[0],color[1],color[2],color[3]);
+                    this.colors.push(color[0],color[1],color[2],color[3]);
+                }
+                
 
                 fL = formL;
                 fL*=2;
@@ -117,7 +133,11 @@ Revolution = function (options) {
                 if(invertNormals)normal.invert();
                 for(var x=0;x<4;x++){
                     this.normals.push(normal.x, normal.y, normal.z);
-                    this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                    if(color=="default"){
+                        this.colors.push(Math.random(),Math.random(),Math.random(),1);
+                    }else{
+                        this.colors.push(color[0],color[1],color[2],color[3]);
+                    }
                 }
                 fL = formL;
                 fL*=4;
