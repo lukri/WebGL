@@ -12,7 +12,13 @@ LoadManager = function () {
     //loadingBox.style.filter = "alpha(opacity=50)";
     loadingBox.style.fontSize = "2em";
     loadingBox.style.textAlign = "center";
-    loadingBox.innerHTML = "Loading...";
+    loadingBox.innerHTML = "Press Start to continue";
+    
+    this.initLoading = function(){
+        loadingBox.innerHTML = "Loading...";    
+    };
+    
+
 
     document.body.appendChild(loadingBox);
 

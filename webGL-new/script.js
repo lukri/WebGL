@@ -316,9 +316,10 @@ function webGLStart() { //called from bodyonload in index.html
 
 
 function start(button, startFullscreen){
+    loadManager.initLoading();
     if(startFullscreen)toggleFullScreen();
     button.parentNode.style.display = "none";
-    async(webGLStart);
+    async({fn:webGLStart, delay:500});
 }
 
 
@@ -350,12 +351,13 @@ function toggleFullScreen() {
 
 
 
-
-function async(fn,fnOptions, callback,callbackOptions) {
+/*params: fn,fnOptions, callback,callbackOptions in options*/
+function async(options) {
+    var opt = options || {}
     setTimeout(function() {
-        if(fnOptions){fn(fnOptions);}else{fn(fnOptions);}
-        if(callback){
-            if(callbackOptions){callback(callbackOptions);}else{callback();}
+        if(opt.fnOptions){opt.fn(opt.fnOptions);}else{opt.fn(opt.fnOptions);}
+        if(opt.callback){
+            if(opt.callbackOptions){opt.callback(opt.callbackOptions);}else{opt.callback();}
         }
-    }, 0);
+    }, opt.delay||0);
 }
