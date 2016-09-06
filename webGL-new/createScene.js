@@ -79,7 +79,7 @@ function assemblyScene() {
     terrain = terrainHolder.getObject();
 
     terrain.setShader("color-shader");
-    terrain.setShader("color-shader"); //use terrainShader
+    terrain.setShader("terrainShader"); //use terrainShader
     terrain.shininess = 300;
     terrainPlace = new Obj();
     terrainPlace.addChild(terrain);

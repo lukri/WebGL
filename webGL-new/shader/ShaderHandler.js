@@ -121,6 +121,21 @@ ShaderHandler = function () {
             script: "\
                 vec4 newColor;\
                 void main(void) {\
+                    /*if(pow(vPosition.x,2.0) + pow(vPosition.z,2.0) < 10.0)discard;*/\
+                    gl_FragColor = vColor;\
+                    newColor = vColor;\
+                    gl_FragColor = vec4(newColor.rgb * vLightWeighting, newColor.a * uAlpha);\
+                }\
+            ",
+        },
+        
+        
+        
+        "terrain-backup-fs": {
+            type: "x-shader/x-fragment",
+            script: "\
+                vec4 newColor;\
+                void main(void) {\
                     if(pow(vPosition.x,2.0) + pow(vPosition.z,2.0) < 10.0)discard;\
                     gl_FragColor = vColor;\
                     newColor = vColor;\
