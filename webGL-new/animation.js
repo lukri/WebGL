@@ -301,17 +301,17 @@ function handleKeys() {
     if (currentlyPressedKeys[KeyEvent.DOM_VK_S]) speed = -0.1;
     
     //change in navigation
-    if (joystickR.up()) speed = -joystickR.deltaY()/300;
-    if (joystickR.down()) speed = -joystickR.deltaY()/300;
-    if (joystickR.left()) yawRate = -joystickR.deltaX()/300;
-    if (joystickR.right()) yawRate = -joystickR.deltaX()/300;
-    
-    if (joystickL.up()) pitchRate = -joystickL.deltaY()/300;
-    if (joystickL.down()) pitchRate = -joystickL.deltaY()/300;
-    
-    
+    if (joystickL.up()) speed = -joystickL.deltaY()/300;
+    if (joystickL.down()) speed = -joystickL.deltaY()/300;
     if (joystickL.left()) yawRate = -joystickL.deltaX()/300;
     if (joystickL.right()) yawRate = -joystickL.deltaX()/300;
+    
+    if (joystickR.up()) pitchRate = -joystickR.deltaY()/300;
+    if (joystickR.down()) pitchRate = -joystickR.deltaY()/300;
+    
+    
+    if (joystickR.left()) yawRate = -joystickR.deltaX()/300;
+    if (joystickR.right()) yawRate = -joystickR.deltaX()/300;
     
     
 
