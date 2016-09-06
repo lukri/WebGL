@@ -1,11 +1,11 @@
-LoadManager = function () {
+var LoadManager = function () {
     var isFinishedBool = false;
     var loadingBox = document.createElement("div");
     //loadingBox.style.display = "none";
     loadingBox.style.position = "absolute";
     loadingBox.style.left = "10px";
     loadingBox.style.top = "250px";
-    loadingBox.style.width = "500px";
+    loadingBox.style.width = "100%"; //due to centering, former value 500px (canvas width)
     //loadingBox.style.padding = "10px";
     loadingBox.style.color = "white";
     //loadingBox.style.opacity = 0.5;
@@ -54,15 +54,15 @@ LoadManager = function () {
         }
 
         return this.setFinish();
-    }
+    };
 
     this.setFinish = function(){
         loadingBox.style.display = "none";
         //document.getElementById("loading").style.display = "none";
         isFinishedBool = true;
         return true;
-    }
-}
+    };
+};
 
 
 var loadManager = new LoadManager();
