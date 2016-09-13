@@ -1,9 +1,5 @@
-/*global globalInitOptions*/
-
 //340 additional colide=false;  and added break just go over
-var Terrain = function (options) {
-    if(!globalInitOptions.terrain)globalInitOptions.terrain = {}; //if globalInitOptions is not used for terrain
-    
+Terrain = function (options) {
     console.log("start terrain");
     options = options || {};
 
@@ -11,7 +7,7 @@ var Terrain = function (options) {
     var plantAngle = options.plantAngle || 2;
 
     var sideLength = options.sideLength || 4;
-    var rn = globalInitOptions.terrain.resolution || options.resolution || 8;
+    var rn = options.resolution || 8;
     var n = Math.pow(2,rn)+1;
 
     console.log("\t resolution: "+rn+" -> points in a row per field: "+n);

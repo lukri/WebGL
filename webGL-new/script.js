@@ -1,4 +1,34 @@
+/*global loadManager, handleKeyDown, handleKeyUp*/
+
 var gl;
+
+//ctrl+click to jump to the desierd function :)
+function shortCut(){
+    start();
+}
+
+var globalInitOptions = {};
+
+function invokeGlobalInitOptions(){
+    globalInitOptions = {
+        turnedOn: true,
+        
+        //terrain
+        terrain: {
+            resolution:2,
+        },
+        
+        
+    };
+}
+
+
+
+
+
+
+
+
 
 function initGL(canvas) {
     try {
@@ -315,10 +345,15 @@ function webGLStart() { //called from bodyonload in index.html
 }
 
 
-function start(button, startFullscreen){
+function start(button, options){
+    options = options || {};
+    
     loadManager.initLoading();
-    if(startFullscreen)toggleFullScreen();
+    if(options.useGlobalInitOptions)invokeGlobalInitOptions();
+    if(options.startFullscreen)toggleFullScreen();
+    
     button.parentNode.style.display = "none";
+    
     async({fn:webGLStart, delay:500});
 }
 

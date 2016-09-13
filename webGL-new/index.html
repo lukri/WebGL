@@ -18,8 +18,9 @@
 <!--former <body onload="webGLStart();">-->
 <body onload="showButtons()">
     <div id="startbuttonpannel" style="display:none;">
-        <button onclick="start(this, true)" ondbclick="">Start+Fullscreen</button>
-        <button onclick="start(this, false)" ondbclick="">Start</button>
+        <button onclick="start(this, {startFullscreen:true;})" ondbclick="">Start+Fullscreen</button>
+        <button onclick="start(this)" ondbclick="">Start</button>
+        <button onclick="start(this, {startFullscreen:false, useGlobalInitOptions:true})" ondbclick="">Start with options</button>
     </div>
     <canvas id="canvas" style="border: none;" width="500" height="500"></canvas>
     
