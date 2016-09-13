@@ -139,7 +139,7 @@ var Obj = function (type, options) {
     		//65536 = 2^16 Numaber of how much triangle an object can hold
             if(amountTriangle>65536){
                 //console.log(amountTriangle+" is bigger than 65536");
-                console.log("object has to be split into smaller once");
+                console.log("object has to be split into smaller ones");
                 var oVert = this.options.vertices;
                 var oNorm = this.options.normals;
                 var oTex = this.options.textureCoords;
