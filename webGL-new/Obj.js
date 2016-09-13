@@ -135,43 +135,58 @@ var Obj = function (type, options) {
         //*------------------------------------------------------------------------
         case "preloaded":
             
-            /*
             var amountTriangle = this.options.vertices.length/3;
     		//65536 = 2^16 Numaber of how much triangle an object can hold
             if(amountTriangle>65536){
+                alert(amountTriangle+" is bigger than 65536");
+                var oVert = this.options.vertices;
+                var oNorm = this.options.normals;
+                var oTex = this.options.textureCoords;
+                var oCol = this.options.colors;
+                var oInd= this.options.indices;
                 var vert = [], norm = [], tex = [], col = [], ind = [];
-                for (var i=0; i<amountTriangle; i++) {
-                    vert.push(this.options.vertices[i*3+0],this.options.vertices[i*3+1],this.options.vertices[i*3+2]);                
-                    if(this.options.normals)
-                    norm.push(this.options.normals[i*3+0],this.options.normals[i*3+1],this.options.normals[i*3+2]); 
-                    if(this.options.colors)
-                    norm.push(this.options.colors[i*4+0],this.options.colors[i*4+1],this.options.colors[i*4+2],this.options.colors[i*4+3],); 
-                    
-                    if(i<100){
-                        var part = new Obj("preloaded",{
-                            vertices:vert,
-                            normals:norm,
-                            colors:col,
-                            indices:ind
-                        });
-                        this.addChild(part);
-                        vert = [], norm = [], tex = [], col = [], ind = [];
-                        break;
+                var iMapping = {};
+                for (var i=0; i<oInd.length; i++) {
+                    var v = oInd[i*3+0];
+                    if(!iMapping[v]){ // vertex is no jet in the list
+                        iMapping[v] = vert.length/3;
+                        vert.push(oVert[v*3+0],oVert[v*3+1],oVert[v*3+2]);                
+                        if(oNorm)norm.push(oNorm[i*3+0],oNorm[i*3+1],oNorm[i*3+2]); 
+                        if(oCol)col.push(oCol[i*4+0],oCol[i*4+1],oCol[i*3+2],oCol[i*4+3]);
+                    }
+                    ind.push(iMapping[v]);
+                    if(i%3==0){ // every next triangle (one consist of 3 i)
+                        if(vert.length/3 > 65535){ 
+                            alert("vea");
+                            console.log(ind);
+                            var part = new Obj("preloaded",{
+                                vertices:vert,
+                                normals:norm,
+                                colors:col,
+                                indices:ind
+                            });
+                            this.addChild(part);
+                            vert = [], norm = [], tex = [], col = [], ind = [];
+                            iMapping = {};
+                        }
                     }
                 }
-               alert(amountTriangle+" is bigger than 65536");
-               //divide and add parts as children to this object
-               var amountNewChildren = Math.ceil(amountTriangle/65536);
-               return;
+                var part = new Obj("preloaded",{
+                    vertices:vert,
+                    normals:norm,
+                    colors:col,
+                    indices:ind
+                });
+                this.addChild(part);
+                return;
             } else {
-            */
                 this.vertices = this.options.vertices;
                 this.normals = this.options.normals || null;
                 this.textureCoords = this.options.textureCoords || null;
                 this.colors = this.options.colors || null;
                 this.indices = this.options.indices || null;
                 this.glTriangleType = this.options.glTriangleType || gl.TRIANGLES;
-            //}
+            }
             break;
         //*------------------------------------------------------------------------
         default:
