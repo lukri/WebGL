@@ -18,17 +18,14 @@ var Tree = function (options) {
     
     var object = new Obj();
 	
-	var trunk = new Obj();
-	var leaves = new Obj();
-	
-	
-	var vertices=[],normals=[],textureCoords=[],colors=[],indices=[];
 	
 	
 	
-	object.addChild(trunk);
-	object.addChild(leaves);
+	var vertices,normals,textureCoords,colors,indices;
+	var verticesT=[],normalsT=[],textureCoordsT=[],colorsT=[],indicesT=[];
+	var verticesL=[],normalsL=[],textureCoordsL=[],colorsL=[],indicesL=[];
 	
+
 	
 	
 	var leafType = "RANDOM"; //"DREADS"LEAF""RANDOM""NONE"
@@ -57,6 +54,16 @@ var Tree = function (options) {
 			addLeaf(baseTransformM, depth);
 			return;
 		}
+		
+		//change context
+		vertices = verticesT;
+		normals = normalsT;
+		textureCoords = textureCoordsT;
+		colors = colorsT;
+		indices = indicesT;
+		
+		
+		
 		var transform = mat4.create();
         mat4.identity(transform);
 		mat4.translate(transform, [0,startLength*Math.pow(lFactor,depth),0]);  //move length up
@@ -101,6 +108,13 @@ var Tree = function (options) {
 	};
 
 	var addLeaf = function(baseTransformM, depth) {
+		//change context
+		vertices = verticesL;
+		normals = normalsL;
+		textureCoords = textureCoordsL;
+		colors = colorsL;
+		indices = indicesL;
+		
 		var transformM = mat4.create();
 		
 		var leafTypeS = leafType;
@@ -144,7 +158,6 @@ var Tree = function (options) {
 	
 	var addBranch = function(baseTransformM, transformM, depth) {
 		
-		
 		var shrink1 = mat4.create();
 		mat4.identity(shrink1);
 		var s1 = Math.pow(rFactor,depth-1);
@@ -155,9 +168,6 @@ var Tree = function (options) {
 		mat4.identity(shrink2);
 		var s2 = Math.pow(rFactor,depth);
 		mat4.scale(shrink2,[s2,s2,s2]);
-		
-		
-		
 		
 		
 		
@@ -227,12 +237,23 @@ var Tree = function (options) {
     mat4.identity(baseTrans);
 	buildBranch(baseTrans,0,0,0);
 	
-    object = new Obj("preloaded",{
-    	vertices:vertices,
-    	normals:normals,
-    	colors:colors,
-    	indices:indices
+    var trunk = new Obj("preloaded",{
+    	vertices:verticesT,
+    	normals:normalsT,
+    	colors:colorsT,
+    	indices:indicesT
     });
+    
+    var leaves = new Obj("preloaded",{
+    	vertices:verticesL,
+    	normals:normalsL,
+    	colors:colorsL,
+    	indices:indicesL
+    });
+    
+	object.addChild(trunk);
+	object.addChild(leaves);
+	
 
     this.getObject = function(){
         return object;
