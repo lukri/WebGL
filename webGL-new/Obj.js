@@ -138,7 +138,8 @@ var Obj = function (type, options) {
             var amountTriangle = this.options.vertices.length/3;
     		//65536 = 2^16 Numaber of how much triangle an object can hold
             if(amountTriangle>65536){
-                alert(amountTriangle+" is bigger than 65536");
+                //console.log(amountTriangle+" is bigger than 65536");
+                console.log("object has to be split into smaller once");
                 var oVert = this.options.vertices;
                 var oNorm = this.options.normals;
                 var oTex = this.options.textureCoords;
@@ -146,19 +147,18 @@ var Obj = function (type, options) {
                 var oInd= this.options.indices;
                 var vert = [], norm = [], tex = [], col = [], ind = [];
                 var iMapping = {};
+                
                 for (var i=0; i<oInd.length; i++) {
-                    var v = oInd[i*3+0];
-                    if(!iMapping[v]){ // vertex is no jet in the list
+                    var v = oInd[i];
+                    if(!iMapping[v]){ // vertex is not jet in the list
                         iMapping[v] = vert.length/3;
                         vert.push(oVert[v*3+0],oVert[v*3+1],oVert[v*3+2]);                
-                        if(oNorm)norm.push(oNorm[i*3+0],oNorm[i*3+1],oNorm[i*3+2]); 
-                        if(oCol)col.push(oCol[i*4+0],oCol[i*4+1],oCol[i*3+2],oCol[i*4+3]);
+                        if(oNorm)norm.push(oNorm[v*3+0],oNorm[v*3+1],oNorm[v*3+2]); 
+                        if(oCol)col.push(oCol[v*4+0],oCol[v*4+1],oCol[v*4+2],oCol[v*4+3]);
                     }
                     ind.push(iMapping[v]);
-                    if(i%3==0){ // every next triangle (one consist of 3 i)
-                        if(vert.length/3 > 65535){ 
-                            alert("vea");
-                            console.log(ind);
+                    if((i+1)%3==0){ // every next triangle (one consist of 3 i, start at 0!)
+                        if((vert.length/3 > 65530)||(i+1==oInd.length)){ //too much or next is last
                             var part = new Obj("preloaded",{
                                 vertices:vert,
                                 normals:norm,
@@ -168,16 +168,10 @@ var Obj = function (type, options) {
                             this.addChild(part);
                             vert = [], norm = [], tex = [], col = [], ind = [];
                             iMapping = {};
+                            //break;
                         }
                     }
                 }
-                var part = new Obj("preloaded",{
-                    vertices:vert,
-                    normals:norm,
-                    colors:col,
-                    indices:ind
-                });
-                this.addChild(part);
                 return;
             } else {
                 this.vertices = this.options.vertices;

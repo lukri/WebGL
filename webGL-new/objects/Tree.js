@@ -14,7 +14,7 @@ var Tree = function (options) {
 	var vStep = (Math.PI*2)/parts; //textCoord
 	
 	
-	var vertices=[],normals=[],textureCoords=[],colors=[],indices=[];
+	
     
     var object = new Obj();
 	
@@ -22,12 +22,16 @@ var Tree = function (options) {
 	var leaves = new Obj();
 	
 	
+	var vertices=[],normals=[],textureCoords=[],colors=[],indices=[];
+	
+	
+	
 	object.addChild(trunk);
 	object.addChild(leaves);
 	
 	
 	
-	var leafType = "RANDOM"; //"DREADS"LEAF""RANDOM"
+	var leafType = "RANDOM"; //"DREADS"LEAF""RANDOM""NONE"
 
 	var makeDoubleLeaf = true;
 	
@@ -35,16 +39,7 @@ var Tree = function (options) {
 	var angle = (Math.PI*2)/parts;
 	vStep = (Math.PI*2)/parts; //textCoord
 	
-	var startNewObjectPart = function(){
-        var part = new Obj("preloaded",{
-                    vertices:vertices,
-                    normals:normals,
-                    colors:colors,
-                    indices:indices
-        });
-        object.addChild(part);
-        vertices=[],normals=[],textureCoords=[],colors=[],indices=[];
-    };
+	
 	
 	
 	var originRing = [];	
@@ -109,6 +104,7 @@ var Tree = function (options) {
 		var transformM = mat4.create();
 		
 		var leafTypeS = leafType;
+		if(leafType=="NONE")return;
 		
 		if(leafType=="RANDOM"){
 		    leafTypeS="DREADS";
@@ -172,13 +168,6 @@ var Tree = function (options) {
 		var mp2 = vec3.create([transformM[12],transformM[13],transformM[14]]);
 		
 		var amountTriangle = vertices.length/3;
-		//65536 = 2^16
-        if(amountTriangle+originRing.length*2>65536){
-            startNewObjectPart();
-            amountTriangle=0;
-        }
-		
-		
 		
 		for(var i=0; i<originRing.length;i++){
 			v = originRing[i]; 
@@ -234,13 +223,16 @@ var Tree = function (options) {
 		
 	};
 	
-	
-	
 	var baseTrans = mat4.create();
     mat4.identity(baseTrans);
 	buildBranch(baseTrans,0,0,0);
 	
-	startNewObjectPart();
+    object = new Obj("preloaded",{
+    	vertices:vertices,
+    	normals:normals,
+    	colors:colors,
+    	indices:indices
+    });
 
     this.getObject = function(){
         return object;
