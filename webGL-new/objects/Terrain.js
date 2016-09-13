@@ -480,23 +480,28 @@ var Terrain = function (options) {
         var gridZ = (z + sideLength*repeatZ/2)/(sideLength*repeatZ)*nZ; 
         z = z + sideLength*repeatZ/2;
         
-        gridX = Math.floor(gridX);
-        gridZ = Math.floor(gridZ);
+        
+        //3 point for a triangle and to calculate exact hight at arbitrary point
+        
+        var points = [];
+        points[0] = {x:Math.floor(gridX),z:Math.floor(gridZ)};
+        //points[1] = {x:Math.floor(gridX),z:Math.floor(gridZ)};
+        //points[2] = {x:Math.floor(gridX),z:Math.floor(gridZ)};
         
         var y;
-        if(grid[gridZ]&&grid[gridZ][gridX]){
-            y = grid[gridZ][gridX].y;
-        }else{
-            y = -10;
-            //console.log(z);
+        
+        for(var i=0; i<points.length; i++){
+            if(grid[points[i].z]&&grid[points[i].z][points[i].x]){
+                y = grid[points[i].z][points[i].x].y;
+            }else{
+                y = -10;
+                //console.log(z);
+            }   
         }
         
         //console.log(gridX+" x "+gridZ+"  =  "+y);
         return y;
-        
-    }
-
-
+    };
 };
 
 
