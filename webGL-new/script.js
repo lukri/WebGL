@@ -15,7 +15,7 @@ function invokeGlobalInitOptions(){
         
         //terrain
         terrain: {
-            resolution:2,
+            resolution:5,
         },
         
         
