@@ -1,4 +1,6 @@
-Obj = function (type, options) {
+/*global gl, mat4*/
+
+var Obj = function (type, options) {
     this.options = options || {};
     this.setObjectIndex();
 
@@ -9,7 +11,8 @@ Obj = function (type, options) {
     this.saveMatrix = function(){
         mat4.identity(this.transformMatrixSaved);
         mat4.multiply(this.transformMatrix,this.transformMatrixSaved,this.transformMatrixSaved);
-    }
+    };
+    
     this.scale = function(scale){
         var scaleArray = [1,1,1];
         scale = scale || {};
@@ -18,7 +21,7 @@ Obj = function (type, options) {
         if(scale.y)scaleArray[1]=scale.y;
         if(scale.z)scaleArray[2]=scale.z;
         mat4.scale(this.transformMatrix,scaleArray);
-    }
+    };
 
     this.translate = function(translation, doBefore){
         var transMat = mat4.create();
@@ -34,7 +37,8 @@ Obj = function (type, options) {
         }else{
             mat4.multiply(transMat,this.transformMatrix,this.transformMatrix);
         }
-    }
+    };
+    
     this.rotate = function(rotation, doBefore){
         var rotMat = mat4.create();
         mat4.identity(rotMat);
@@ -50,12 +54,12 @@ Obj = function (type, options) {
         }else{
             mat4.multiply(rotMat,this.transformMatrix,this.transformMatrix);
         }
-    }
+    };
 
     this.reset = function(){
         mat4.identity(this.transformMatrix);
         mat4.multiply(this.transformMatrix,this.transformMatrixSaved,this.transformMatrix);
-    }
+    };
 
     this.position = [0,0,0];
     this.rotation = {x:0,y:0,z:0};
@@ -73,7 +77,7 @@ Obj = function (type, options) {
     this.addChild = function(childObj){
         if(!childObj)return;
         this.children.push(childObj);
-    }
+    };
 
     this.invertNormals = function(){
         for(var i=0; i<this.normals.length; i++){
@@ -130,12 +134,44 @@ Obj = function (type, options) {
             break;
         //*------------------------------------------------------------------------
         case "preloaded":
-            this.vertices = this.options.vertices;
-            this.normals = this.options.normals || null;
-            this.textureCoords = this.options.textureCoords || null;
-            this.colors = this.options.colors || null;
-            this.indices = this.options.indices || null;
-            this.glTriangleType = this.options.glTriangleType || gl.TRIANGLES;
+            
+            /*
+            var amountTriangle = this.options.vertices.length/3;
+    		//65536 = 2^16 Numaber of how much triangle an object can hold
+            if(amountTriangle>65536){
+                var vert = [], norm = [], tex = [], col = [], ind = [];
+                for (var i=0; i<amountTriangle; i++) {
+                    vert.push(this.options.vertices[i*3+0],this.options.vertices[i*3+1],this.options.vertices[i*3+2]);                
+                    if(this.options.normals)
+                    norm.push(this.options.normals[i*3+0],this.options.normals[i*3+1],this.options.normals[i*3+2]); 
+                    if(this.options.colors)
+                    norm.push(this.options.colors[i*4+0],this.options.colors[i*4+1],this.options.colors[i*4+2],this.options.colors[i*4+3],); 
+                    
+                    if(i<100){
+                        var part = new Obj("preloaded",{
+                            vertices:vert,
+                            normals:norm,
+                            colors:col,
+                            indices:ind
+                        });
+                        this.addChild(part);
+                        vert = [], norm = [], tex = [], col = [], ind = [];
+                        break;
+                    }
+                }
+               alert(amountTriangle+" is bigger than 65536");
+               //divide and add parts as children to this object
+               var amountNewChildren = Math.ceil(amountTriangle/65536);
+               return;
+            } else {
+            */
+                this.vertices = this.options.vertices;
+                this.normals = this.options.normals || null;
+                this.textureCoords = this.options.textureCoords || null;
+                this.colors = this.options.colors || null;
+                this.indices = this.options.indices || null;
+                this.glTriangleType = this.options.glTriangleType || gl.TRIANGLES;
+            //}
             break;
         //*------------------------------------------------------------------------
         default:

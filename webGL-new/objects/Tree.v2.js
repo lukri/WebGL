@@ -1,6 +1,15 @@
-var Plant = function (options) {
+Tree = function (options) {
     
- 	options = options || {};
+ 	startLength = 5;
+	startRadius = 0.5;
+	maxDepth = 14; //13   max possible 18 and 15 would be nice
+
+	gR = (1+Math.sqrt(5))/2; //golden Ratio
+	lFactor = 0.7;
+	rFactor = 0.7;
+	parts = 5; //10 min 3
+	
+	vStep = (Math.PI*2)/parts; //textCoord
 	
 	
 	var vertices=[],normals=[],textureCoords=[],colors=[],indices=[];

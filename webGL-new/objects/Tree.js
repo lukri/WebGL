@@ -1,21 +1,22 @@
-Tree = function (options) {
-    
- 	startLength = 5;
-	startRadius = 0.5;
-	maxDepth = 14; //13   max possible 18 and 15 would be nice
+/*global Obj, vec3, mat4*/
 
-	gR = (1+Math.sqrt(5))/2; //golden Ratio
-	lFactor = 0.7;
-	rFactor = 0.7;
-	parts = 5; //10 min 3
+var Tree = function (options) {
+    
+ 	var startLength = 5;
+	var startRadius = 0.5;
+	var maxDepth = 14; //13   max possible 18 and 15 would be nice
+
+	var gR = (1+Math.sqrt(5))/2; //golden Ratio
+	var lFactor = 0.7;
+	var rFactor = 0.7;
+	var parts = 5; //10 min 3
 	
-	vStep = (Math.PI*2)/parts; //textCoord
+	var vStep = (Math.PI*2)/parts; //textCoord
 	
 	
 	var vertices=[],normals=[],textureCoords=[],colors=[],indices=[];
     
     var object = new Obj();
-    var origin = new Vec();
 	
 	var trunk = new Obj();
 	var leaves = new Obj();
@@ -26,12 +27,12 @@ Tree = function (options) {
 	
 	
 	
-	leafType = "RANDOM"; //"DREADS"LEAF""RANDOM"
+	var leafType = "RANDOM"; //"DREADS"LEAF""RANDOM"
 
-	makeDoubleLeaf = true;
+	var makeDoubleLeaf = true;
 	
 
-	angle = (Math.PI*2)/parts;
+	var angle = (Math.PI*2)/parts;
 	vStep = (Math.PI*2)/parts; //textCoord
 	
 	var startNewObjectPart = function(){
@@ -46,9 +47,9 @@ Tree = function (options) {
     };
 	
 	
-	originRing = [];	
+	var originRing = [];	
 	for(var i=0; i<=parts; i++){
-		v = new vec3.create([Math.sin(angle*i)*startRadius,0,Math.cos(angle*i)*startRadius]);	
+		var v = new vec3.create([Math.sin(angle*i)*startRadius,0,Math.cos(angle*i)*startRadius]);	
 		originRing.push(v);
 	}
 	
@@ -56,7 +57,7 @@ Tree = function (options) {
 
 	
 	
-	buildBranch = function(baseTransformM, spreadAngle, branchRotAngle, depth) {
+	var buildBranch = function(baseTransformM, spreadAngle, branchRotAngle, depth) {
 		if(depth >= maxDepth){
 			addLeaf(baseTransformM, depth);
 			return;
@@ -84,8 +85,8 @@ Tree = function (options) {
 		
 		branchRotAngle = Math.PI/2*getRandom(0,1); 
 		
-		fixPart = Math.PI/7;
-		randomPart = Math.PI/7;
+		var fixPart = Math.PI/7;
+		var randomPart = Math.PI/7;
 		
 		//left
 		spreadAngle = (randomPart*getRandom(0,1) + fixPart);
@@ -98,16 +99,16 @@ Tree = function (options) {
 
 
 	
-	getRandom = function(from, to) {
-		r = Math.random()*(to-from)+from;
+	var getRandom = function(from, to) {
+		var r = Math.random()*(to-from)+from;
 		r = Math.round(r*1000)/1000.0;
 		return r;
 	};
 
-	addLeaf = function(baseTransformM, depth) {
+	var addLeaf = function(baseTransformM, depth) {
 		var transformM = mat4.create();
 		
-		leafTypeS = leafType;
+		var leafTypeS = leafType;
 		
 		if(leafType=="RANDOM"){
 		    leafTypeS="DREADS";
@@ -119,7 +120,7 @@ Tree = function (options) {
 		switch (leafTypeS) {
 		case "LEAF":
 			mat4.identity(transformM);
-			s = 20;
+			var s = 20;
 			mat4.scale(transformM,[s,s,s]);
 			mat4.translate(transformM,[0,0.01,0]);
 			mat4.multiply(baseTransformM, transformM, transformM);
@@ -145,7 +146,7 @@ Tree = function (options) {
 		}
 	};
 	
-	addBranch = function(baseTransformM, transformM, depth) {
+	var addBranch = function(baseTransformM, transformM, depth) {
 		
 		
 		var shrink1 = mat4.create();
@@ -170,7 +171,7 @@ Tree = function (options) {
 		var mp1 = vec3.create([baseTransformM[12],baseTransformM[13],baseTransformM[14]]);
 		var mp2 = vec3.create([transformM[12],transformM[13],transformM[14]]);
 		
-		amountTriangle = vertices.length/3;
+		var amountTriangle = vertices.length/3;
 		//65536 = 2^16
         if(amountTriangle+originRing.length*2>65536){
             startNewObjectPart();
@@ -226,12 +227,12 @@ Tree = function (options) {
             }
 			
 			if(i==originRing.length-1)continue;
-			j = i*2+amountTriangle;
+			var j = i*2+amountTriangle;
 			indices.push(j,j+1,j+2);
 			indices.push(j+1,j+2,j+3);
 		}
 		
-	}
+	};
 	
 	
 	
