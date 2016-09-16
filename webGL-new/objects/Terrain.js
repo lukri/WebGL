@@ -451,6 +451,11 @@ var Terrain = function (options) {
                     if((z<(pZn-1))&&(x<(pXn-1))){
                         this.indices.push(i,i+1,i+1+pXn);
                         this.indices.push(i,i+1+pXn,i+pXn);
+                        /* result is this 
+                            i           i+1
+                                  |\|
+                            i+pXn       i+1+pX
+                        */
                     }
                     i++;
                 }
@@ -475,30 +480,48 @@ var Terrain = function (options) {
         return this.trees;
     };
 
+    
+    //stuff for getY http://answers.unity3d.com/questions/383804/calculate-uv-coordinates-of-3d-point-on-plane-of-m.html
+    // better: https://classes.soe.ucsc.edu/cmps160/Fall10/resources/barycentricInterpolation.pdf
+    // asume that the total triangle has sides a:1, b:1, c:sqrt(2) and therefore area: 0.5
+    
     this.getY = function(x,z){
         var gridX = (x + sideLength*repeatX/2)/(sideLength*repeatX)*nX;  
         var gridZ = (z + sideLength*repeatZ/2)/(sideLength*repeatZ)*nZ; 
-        z = z + sideLength*repeatZ/2;
+
+        if(gridX<0 || gridZ<0 || (gridZ > grid.length-1) || gridX > grid[0].length-1) return -10;        
         
+        var topLeftZ = Math.floor(gridZ);
+        var topLeftX = Math.floor(gridX);
         
-        //3 point for a triangle and to calculate exact hight at arbitrary point
+        var fx = gridX - topLeftX;
+        var fz = gridZ - topLeftZ;
         
-        var points = [];
-        points[0] = {x:Math.floor(gridX),z:Math.floor(gridZ)};
-        //points[1] = {x:Math.floor(gridX),z:Math.floor(gridZ)};
-        //points[2] = {x:Math.floor(gridX),z:Math.floor(gridZ)};
-        
-        var y;
-        
-        for(var i=0; i<points.length; i++){
-            if(grid[points[i].z]&&grid[points[i].z][points[i].x]){
-                y = grid[points[i].z][points[i].x].y;
-            }else{
-                y = -10;
-                //console.log(z);
-            }   
+        var ptly = grid[topLeftZ][topLeftX].y;   //y o point top left
+        var ptry = grid[topLeftZ][topLeftX+1].y;
+        var pbly = grid[topLeftZ+1][topLeftX].y;
+        var pbry = grid[topLeftZ+1][topLeftX+1].y;
+        var areaPtl, areaPtr, areaPbl, areaPbr;
+         
+        var y = 0;
+        if(fx==fz){ //point is on diagonal
+            var percentPbr = Math.sqrt(fx*fx);  //sr(2*x^2)/sr(2)
+            y = percentPbr*pbry+(1-percentPbr)*ptly;    
+        }
+        if(fx>fz){
+            areaPbr = fz/2;  
+            areaPtl = (1-fx)/2;
+            areaPtr = 0.5 - (areaPbr + areaPtl); // whole area = 0.5
+            y = (areaPbr*pbry+areaPtl*ptly+areaPtr*ptry)/0.5;
+        }
+        if(fx<fz){
+            areaPbr = fx/2;  
+            areaPtl = (1-fz)/2;
+            areaPbl = 0.5 - (areaPbr + areaPtl); // whole area = 0.5
+            y = (areaPbr*pbry+areaPtl*ptly+areaPbl*pbly)/0.5;    
         }
         
+        //console.log("x: "+fx+"     z: "+fz);
         //console.log(gridX+" x "+gridZ+"  =  "+y);
         return y;
     };
