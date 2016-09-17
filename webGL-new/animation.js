@@ -114,6 +114,7 @@ cPH.setCurrentTree("Cube Controls", "Cube", "Speed");
 var xSpeed = cPH.addItem("X", "numberInput", [0,1,-1000,1000]);
 var ySpeed = cPH.addItem("Y", "numberInput", [30,1,-1000,1000]);
 
+
 cPH.convertToHTML();
 
 
@@ -239,6 +240,20 @@ function handleKeyDown(event) {
 
     if(String.fromCharCode(event.keyCode)=="3"){
         cPH.show("Twinkle Controls");
+    }
+    
+    
+    if(String.fromCharCode(event.keyCode)=="7"){
+        camXcorrection -= 1;
+    }
+    if(String.fromCharCode(event.keyCode)=="8"){
+        camXcorrection += 1;
+    }
+    if(String.fromCharCode(event.keyCode)=="9"){
+        camZcorrection -= 1;
+    }
+    if(String.fromCharCode(event.keyCode)=="0"){
+        camZcorrection += 1;
     }
 
 }

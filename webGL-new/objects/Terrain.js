@@ -488,7 +488,10 @@ var Terrain = function (options) {
     this.getY = function(x,z){
         var gridX = (x + sideLength*repeatX/2)/(sideLength*repeatX)*nX;  
         var gridZ = (z + sideLength*repeatZ/2)/(sideLength*repeatZ)*nZ; 
-
+        if((gridX=="NaN")||(gridZ=="NaN")){
+            console.log("Warning: not correct input");
+            return 0;
+        }
         if(gridX<0 || gridZ<0 || (gridZ > grid.length-1) || gridX > grid[0].length-1) return -10;        
         
         var topLeftZ = Math.floor(gridZ);

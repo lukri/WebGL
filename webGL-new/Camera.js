@@ -1,3 +1,4 @@
+var camZcorrection = 0, camXcorrection=0;
 var Camera = function (options) {
     this.options = options || {};
 
@@ -33,8 +34,10 @@ var Camera = function (options) {
             
             
             //!!!! noche eine korruktur machen, weil kamerea nicht auf 0,0 am anfang;
-            yPos = terrainHolder.getY(xPos,zPos+10);
+            yPos = terrainHolder.getY(xPos+camZcorrection,zPos+10);
             yPos += yPosAddition;
+            //console.log("x: "+camXcorrection+"       z: "+camZcorrection);
+            
             //console.log(xPos+" -> "+terrainHolder.getY(xPos,zPos));
         }
         
