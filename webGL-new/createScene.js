@@ -39,6 +39,10 @@ function assemblyScene() {
     shaderHanlder.addShader("perVertexLight","pervertexlight-fs","shader-vs");
     shaderHanlder.addShader("terrainShader","terrain-fs","shader-vs");
     shaderHanlder.addShader("color-shader","color-fs","shader-vs");
+    
+    //brick shader: http://www.informit.com/articles/article.aspx?p=171029
+    shaderHanlder.addShader("bridge-shader","perfraglight-fs","shader-vs");  //later bridge fs
+    
     shaderHanlder.addShader("picking-shader","picking-fs","picking-vs");
 
 
@@ -134,7 +138,8 @@ function assemblyScene() {
 
 
     bridge = bridgeHolder.getObject();
-    bridge.setShader("perFragLight");
+    //bridge.setShader("perFragLight");
+    bridge.setShader("bridge-shader");
 
     bridgePlace = new Obj();
     bridgePlace.addChild(bridge);

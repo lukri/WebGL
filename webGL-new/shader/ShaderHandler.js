@@ -121,9 +121,36 @@ ShaderHandler = function () {
             script: "\
                 vec4 newColor;\
                 void main(void) {\
-                    /*if(pow(vPosition.x,2.0) + pow(vPosition.z,2.0) < 10.0)discard;*/\
-                    gl_FragColor = vColor;\
+                    /*if(pow(vRealPosition.x+0.3,2.0) + pow(vRealPosition.z,2.0) < 1.0)discard;*/\
+                    /*if(vRealPosition.y > 2.5)discard;*/\
                     newColor = vColor;\
+                    if((vRealPosition.y > 0.0)&&(vRealPosition.y < 0.11)) {newColor.b = 1.0;}\
+                    if((vRealPosition.y > 0.1)&&(vRealPosition.y < 0.3)) {\
+                        newColor.r = vRealPosition.y+0.1;\
+                        newColor.g = vRealPosition.y+0.1;\
+                        newColor.b = vRealPosition.y;\
+                    }\
+                    if((vRealPosition.y > 0.2))newColor.g = vColor.g;\
+                    gl_FragColor = vec4(newColor.rgb * vLightWeighting, newColor.a * uAlpha);\
+                }\
+            ",
+        },
+        
+        "bridge-fs": {
+            type: "x-shader/x-fragment",
+            script: "\
+                vec4 newColor;\
+                void main(void) {\
+                    /*if(pow(vRealPosition.x+0.3,2.0) + pow(vRealPosition.z,2.0) < 1.0)discard;*/\
+                    /*if(vRealPosition.y > 2.5)discard;*/\
+                    newColor = vColor;\
+                    if((vRealPosition.y > 0.0)&&(vRealPosition.y < 0.11)) {newColor.b = 1.0;}\
+                    if((vRealPosition.y > 0.1)&&(vRealPosition.y < 0.3)) {\
+                        newColor.r = vRealPosition.y+0.1;\
+                        newColor.g = vRealPosition.y+0.1;\
+                        newColor.b = vRealPosition.y;\
+                    }\
+                    if((vRealPosition.y > 0.2))newColor.g = vColor.g;\
                     gl_FragColor = vec4(newColor.rgb * vLightWeighting, newColor.a * uAlpha);\
                 }\
             ",
