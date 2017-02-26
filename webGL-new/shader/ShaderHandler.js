@@ -1,8 +1,10 @@
+/*global gl*/
+
 // https://developers.google.com/web/updates/2011/12/Use-mediump-precision-in-WebGL-when-possible
 
-ShaderHandler = function () {
-    this.fragmentShaderStart = "precision lowp float;";
-    this.fragmentUniforms = "\
+var ShaderHandler = function() {
+        this.fragmentShaderStart = "precision lowp float;";
+        this.fragmentUniforms = "\
                             uniform float uAlpha;\
                             uniform sampler2D uSampler;\
                             uniform sampler2D uColorMapSampler;\
@@ -20,7 +22,7 @@ ShaderHandler = function () {
                             uniform lowp vec3 uPointLightingDiffuseColor;\
                             uniform lowp vec3 uPointLightingColor;";
 
-    this.varyings = "\
+        this.varyings = "\
                     varying vec4 vColor;\
                     varying vec2 vTextureCoord;\
                     varying vec3 vLightWeighting;\
@@ -30,12 +32,12 @@ ShaderHandler = function () {
                     varying vec4 vLightPosition;\
                     varying vec3 vPickingColor;";
 
-    this.vAttributes = "\
+        this.vAttributes = "\
                     attribute vec3 aVertexPosition;\
                     attribute vec4 aVertexColor;\
                     attribute vec3 aVertexNormal;\
                     attribute vec2 aTextureCoord;";
-    this.vUniforms = "\
+        this.vUniforms = "\
                     uniform mat4 uMVMatrix;\
                     uniform mat4 uPMatrix;\
                     uniform mat3 uNMatrix;\
@@ -49,22 +51,22 @@ ShaderHandler = function () {
                     uniform bool uUseTextures;\
                     uniform vec3 uPickingColor;";
 
-//--- actual shader---------------------------------------------------------------------------------------------------------------
+        //--- actual shader---------------------------------------------------------------------------------------------------------------
 
-    this.ShaderScriptCollection = {
-        "color-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
+        this.ShaderScriptCollection = {
+            "color-fs": {
+                type: "x-shader/x-fragment",
+                script: "\
                 void main(void) {\
                     if(vColor.rgb == vec3(0,0,0))discard;\
                     gl_FragColor = vColor;\
                     gl_FragColor = vec4(vColor.rgb * vLightWeighting, vColor.a * uAlpha);\
                 }\
             ",
-        },
-        "pervertexlight-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
+            },
+            "pervertexlight-fs": {
+                type: "x-shader/x-fragment",
+                script: "\
                 void main(void) {\
                     vec4 fragmentColor;\
                     if (uUseTextures) {\
@@ -75,11 +77,11 @@ ShaderHandler = function () {
                     gl_FragColor = vec4(fragmentColor.rgb * vLightWeighting, fragmentColor.a);\
                 }\
             ",
-        },
+            },
 
-        "perfraglight-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
+            "perfraglight-fs": {
+                type: "x-shader/x-fragment",
+                script: "\
                 void main(void) {\
                     vec3 lightWeighting;\
                     if (!uUseLighting) {\
@@ -113,14 +115,22 @@ ShaderHandler = function () {
                     gl_FragColor = vec4(fragmentColor.rgb * lightWeighting, fragmentColor.a);\
                 }\
             ",
-        },
+            },
 
 
-        "terrain-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
+            "terrain-fs": {
+                type: "x-shader/x-fragment",
+                script: "\
                 vec4 newColor;\
                 void main(void) {\
+                    int h=3;\
+                    float k[3];\
+                    k[0]=1.2;\
+                    k[1]=2.3;\
+                    k[2]=3.4;\
+                    for(int i=0;i<2;i++){\
+                        if(pow(vRealPosition.x+k[i+1],2.0) + pow(vRealPosition.z,2.0) < 1.0)discard;\
+                    }\
                     /*if(pow(vRealPosition.x+0.3,2.0) + pow(vRealPosition.z,2.0) < 1.0)discard;*/\
                     /*if(vRealPosition.y > 2.5)discard;*/\
                     newColor = vColor;\
@@ -134,33 +144,13 @@ ShaderHandler = function () {
                     gl_FragColor = vec4(newColor.rgb * vLightWeighting, newColor.a * uAlpha);\
                 }\
             ",
-        },
-        
-        "bridge-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
-                vec4 newColor;\
-                void main(void) {\
-                    /*if(pow(vRealPosition.x+0.3,2.0) + pow(vRealPosition.z,2.0) < 1.0)discard;*/\
-                    /*if(vRealPosition.y > 2.5)discard;*/\
-                    newColor = vColor;\
-                    if((vRealPosition.y > 0.0)&&(vRealPosition.y < 0.11)) {newColor.b = 1.0;}\
-                    if((vRealPosition.y > 0.1)&&(vRealPosition.y < 0.3)) {\
-                        newColor.r = vRealPosition.y+0.1;\
-                        newColor.g = vRealPosition.y+0.1;\
-                        newColor.b = vRealPosition.y;\
-                    }\
-                    if((vRealPosition.y > 0.2))newColor.g = vColor.g;\
-                    gl_FragColor = vec4(newColor.rgb * vLightWeighting, newColor.a * uAlpha);\
-                }\
-            ",
-        },
-        
-        
-        
-        "terrain-backup-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
+            },
+
+            
+
+            "terrain-backup-fs": {
+                type: "x-shader/x-fragment",
+                script: "\
                 vec4 newColor;\
                 void main(void) {\
                     if(pow(vPosition.x,2.0) + pow(vPosition.z,2.0) < 10.0)discard;\
@@ -169,13 +159,13 @@ ShaderHandler = function () {
                     gl_FragColor = vec4(newColor.rgb * vLightWeighting, newColor.a * uAlpha);\
                 }\
             ",
-        },
+            },
 
 
 
-        "shader-vs": {
-            type: "x-shader/x-vertex",
-            script: "\
+            "shader-vs": {
+                type: "x-shader/x-vertex",
+                script: "\
                  void main(void) {\
                      vRealPosition = aVertexPosition;\
                      vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);\
@@ -201,11 +191,11 @@ ShaderHandler = function () {
                      }\
                  }\
             ",
-        },
+            },
 
-        "picking-vs": {
-            type: "x-shader/x-vertex",
-            script: "\
+            "picking-vs": {
+                type: "x-shader/x-vertex",
+                script: "\
                  void main(void) {\
                      vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);\
                      gl_Position = uPMatrix * mvPosition;\
@@ -217,148 +207,157 @@ ShaderHandler = function () {
                      vTransformedNormal = uNMatrix * aVertexNormal;\
                  }\
             ",
-        },
+            },
 
 
-        "picking-fs": {
-            type: "x-shader/x-fragment",
-            script: "\
+            "picking-fs": {
+                type: "x-shader/x-fragment",
+                script: "\
                 void main(void) {\
                     gl_FragColor = vec4(vPickingColor.rgb, 1.0);\
                 }\
             ",
-        },
-    }
-//--- actual shader end---------------------------------------------------------------------------------------------------------------
+            },
+        };
+        //--- actual shader end---------------------------------------------------------------------------------------------------------------
 
 
-    this.amount = 0;
-    this.shaderContainer = {};
+        this.amount = 0;
+        this.shaderContainer = {};
 
-    this.getInternShader = function(gl, id) {
-        var shaderScript = this.ShaderScriptCollection[id];
-        if (!shaderScript) {
-            alert(id + " not found in shadercollection");
-            return null;
-        }
-
-        var str = this.varyings;
-
-        var shader;
-        if (shaderScript.type == "x-shader/x-fragment") {
-            str = this.fragmentShaderStart + this.fragmentUniforms + str;
-            shader = gl.createShader(gl.FRAGMENT_SHADER);
-        } else if (shaderScript.type == "x-shader/x-vertex") {
-            str = this.vAttributes + this.vUniforms + str;
-            shader = gl.createShader(gl.VERTEX_SHADER);
-        } else {
-            return null;
-        }
-        str += shaderScript.script;
-
-        gl.shaderSource(shader, str);
-        gl.compileShader(shader);
-
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert(gl.getShaderInfoLog(shader));
-            return null;
-        }
-
-        return shader;
-    }
-
-
-
-
-
-
-    this.addShader = function (name, fsName, vsName){
-        if(this.shaderContainer[name]){
-            alert("Shader already exists");
-            return;
-        }
-        var fragmentShader = this.getInternShader(gl, fsName);
-        var vertexShader = this.getInternShader(gl, vsName);
-
-        var shaderProgram = gl.createProgram();
-        gl.attachShader(shaderProgram, vertexShader);
-        gl.attachShader(shaderProgram, fragmentShader);
-        gl.linkProgram(shaderProgram);
-
-
-        if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            alert("Could not initialise shader: "+name);
-            alert(gl.getProgramInfoLog(shaderProgram));
-            return;
-        }
-
-        //add position to the attributes
-        shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-        gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-
-        //add color to the attributes
-        shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
-        gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
-
-        shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-        gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute)
-
-        shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-        gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
-
-        shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-        shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-        shaderProgram.nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
-        shaderProgram.cameraMatrixUniform = gl.getUniformLocation(shaderProgram, "uCamMatrix");
-        shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-        shaderProgram.materialShininessUniform = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
-        shaderProgram.showSpecularHighlightsUniform = gl.getUniformLocation(shaderProgram, "uShowSpecularHighlights");
-        shaderProgram.colorMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uColorMapSampler");
-        shaderProgram.shininessMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uShininessMapSampler");
-        shaderProgram.useColorMapUniform = gl.getUniformLocation(shaderProgram, "uUseColorMap");
-        shaderProgram.useShininessMapUniform = gl.getUniformLocation(shaderProgram, "uUseShininessMap");
-        shaderProgram.useTexturesUniform = gl.getUniformLocation(shaderProgram, "uUseTextures");
-        shaderProgram.useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
-        shaderProgram.ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
-        shaderProgram.lightingDirectionUniform = gl.getUniformLocation(shaderProgram, "uLightingDirection");
-        shaderProgram.directionalColorUniform = gl.getUniformLocation(shaderProgram, "uDirectionalColor");
-        shaderProgram.alphaUniform = gl.getUniformLocation(shaderProgram, "uAlpha");
-        shaderProgram.colorUniform = gl.getUniformLocation(shaderProgram, "uColor");
-
-        shaderProgram.pickingColorUniform = gl.getUniformLocation(shaderProgram, "uPickingColor");
-
-
-        shaderProgram.pointLightingLocationUniform = gl.getUniformLocation(shaderProgram, "uPointLightingLocation");
-        shaderProgram.pointLightingSpecularColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingSpecularColor");
-        shaderProgram.pointLightingDiffuseColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingDiffuseColor");
-
-        //abfall von serie 13
-        shaderProgram.pointLightingColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingColor");
-
-        shaderProgram.name = name;
-
-        this.shaderContainer[name] = shaderProgram;
-        this.amount++;
-    }
-    this.getShader = function(name, options){
-        options = options || {};
-        if(options.getNthElement){
-            var i=0;
-            for(shaderName in this.shaderContainer){
-                if(i==name)return this.shaderContainer[shaderName];
-                i++;
+        this.getInternShader = function(gl, id) {
+            var shaderScript = this.ShaderScriptCollection[id];
+            if (!shaderScript) {
+                alert(id + " not found in shadercollection");
+                return null;
             }
-            alert("not found");
-            return null;
+
+            var str = this.varyings;
+
+            var shader;
+            if (shaderScript.type == "x-shader/x-fragment") {
+                str = this.fragmentShaderStart + this.fragmentUniforms + str;
+                shader = gl.createShader(gl.FRAGMENT_SHADER);
+            }
+            else if (shaderScript.type == "x-shader/x-vertex") {
+                str = this.vAttributes + this.vUniforms + str;
+                shader = gl.createShader(gl.VERTEX_SHADER);
+            }
+            else {
+                return null;
+            }
+            str += shaderScript.script;
+
+            gl.shaderSource(shader, str);
+            gl.compileShader(shader);
+
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                alert(gl.getShaderInfoLog(shader));
+                return null;
+            }
+
+            return shader;
+        };
+
+
+
+
+
+
+        this.addShader = function(name, fsName, vsName) {
+            if (this.shaderContainer[name]) {
+                alert("Shader already exists");
+                return;
+            }
+            var fragmentShader = this.getInternShader(gl, fsName);
+            var vertexShader = this.getInternShader(gl, vsName);
+
+            var shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+
+
+            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                alert("Could not initialise shader: " + name);
+                alert(gl.getProgramInfoLog(shaderProgram));
+                return;
+            }
+
+            //add position to the attributes
+            shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+            //add color to the attributes
+            shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+            gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+
+            shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
+            gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
+
+            shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+            gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
+
+
+            //test to pass array to shader
+            shaderProgram.tunnelXZR = gl.getUniformLocation(shaderProgram, "tunnelXZR");
+
+
+
+            shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+            shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            shaderProgram.nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
+            shaderProgram.cameraMatrixUniform = gl.getUniformLocation(shaderProgram, "uCamMatrix");
+            shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+            shaderProgram.materialShininessUniform = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
+            shaderProgram.showSpecularHighlightsUniform = gl.getUniformLocation(shaderProgram, "uShowSpecularHighlights");
+            shaderProgram.colorMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uColorMapSampler");
+            shaderProgram.shininessMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uShininessMapSampler");
+            shaderProgram.useColorMapUniform = gl.getUniformLocation(shaderProgram, "uUseColorMap");
+            shaderProgram.useShininessMapUniform = gl.getUniformLocation(shaderProgram, "uUseShininessMap");
+            shaderProgram.useTexturesUniform = gl.getUniformLocation(shaderProgram, "uUseTextures");
+            shaderProgram.useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
+            shaderProgram.ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
+            shaderProgram.lightingDirectionUniform = gl.getUniformLocation(shaderProgram, "uLightingDirection");
+            shaderProgram.directionalColorUniform = gl.getUniformLocation(shaderProgram, "uDirectionalColor");
+            shaderProgram.alphaUniform = gl.getUniformLocation(shaderProgram, "uAlpha");
+            shaderProgram.colorUniform = gl.getUniformLocation(shaderProgram, "uColor");
+
+            shaderProgram.pickingColorUniform = gl.getUniformLocation(shaderProgram, "uPickingColor");
+
+
+            shaderProgram.pointLightingLocationUniform = gl.getUniformLocation(shaderProgram, "uPointLightingLocation");
+            shaderProgram.pointLightingSpecularColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingSpecularColor");
+            shaderProgram.pointLightingDiffuseColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingDiffuseColor");
+
+            //abfall von serie 13
+            shaderProgram.pointLightingColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingColor");
+
+            shaderProgram.name = name;
+
+            this.shaderContainer[name] = shaderProgram;
+            this.amount++;
+        };
+        this.getShader = function(name, options) {
+            options = options || {};
+            if (options.getNthElement) {
+                var i = 0;
+                for (shaderName in this.shaderContainer) {
+                    if (i == name) return this.shaderContainer[shaderName];
+                    i++;
+                }
+                alert("not found");
+                return null;
+            }
+
+            if (this.shaderContainer[name]) {
+                return this.shaderContainer[name];
+            }
+            else {
+                return null;
+            }
         }
 
-        if(this.shaderContainer[name]){
-            return this.shaderContainer[name];
-        }else{
-            return null;
-        }
-    }
-
-} //discarded
+    } //discarded
 
 var shaderHanlder = new ShaderHandler;

@@ -242,6 +242,9 @@ function drawObject(obj, options){
         gl.uniform1f(shaderProgram.materialShininessUniform, shininessValue);
 
 
+        
+        //test to pass array
+        gl.uniform3fv(shaderProgram.tunnelXZR, new Float32Array([1,4,3]));
 
 
         gl.uniform1i(shaderProgram.useTexturesUniform, useTexture.getValue());
